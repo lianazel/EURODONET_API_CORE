@@ -1,0 +1,38 @@
+﻿@page
+@model pizza_mama.Pages.Admin.IndexModel
+
+@{
+    // > On ajoute le texte "DEVELOPPEMENT" si on est en développement <
+
+    if (Model.BlnModDev)
+    {
+        <p> DEVELOPPEMENT </p>
+    }
+}
+
+<h1>Vous devez vous identifier</h1>
+
+@{
+    // Si le test du mot de passe est invalide, on affiche le message <
+    // ( On utilise la claase "BootStrap" "alert alert-danger"...
+    //   ... améliorer l'affichage )
+    if (Model.BlnLogOk == false)
+    {
+        <br />
+        <p>
+            <div class="alert alert-danger" role="alert">
+                Erreur : Ce compte est invalide !
+            </div>
+        </p>
+        <br />
+    }
+}
+
+@{
+    //> On met en place un formulaire de type "post" <
+}
+<form method="post">
+    <input type="text" name="username" placeholder="Login"><br /><br />
+    <input type="password" name="password" placeholder="Mot de passe"><br /><br />
+    <button>Se connecter</button>
+</form>
