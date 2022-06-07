@@ -28,7 +28,7 @@ namespace EuroDotnet.Model
         public string ID_Adresse_Societe { get; set; }
 
         // > Descriptif Facture <
-        public string Descriptif { get; set; }
+        public string DescriptionFacture { get; set; }
     }
 
 }

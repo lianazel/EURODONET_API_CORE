@@ -561,7 +561,7 @@ namespace EuroDotNet.Controllers
                 // ### Extraction Infos Société & Adresse Societe 
                 //=-=-=-=-=-=-=-=-=-=-=
                 // > Extraction Societe <
-                ObjSocieteLu = _context.Societe.Where(F => F.Id_Societe == _ObjGenereFacture.ID_Adresse_Societe)
+                ObjSocieteLu = _context.Societe.Where(F => F.Id_Societe == _ObjGenereFacture.ID_Societe)
                    .FirstOrDefault();
 
                 // > Extraction Adresse <
@@ -581,7 +581,7 @@ namespace EuroDotNet.Controllers
                 // > ID Adresse société  facture <
                 NewFacture.FK_ID_Adresse_Societe = _ObjGenereFacture.ID_Adresse_Societe;
                 // > Description Facture  <
-                NewFacture.DescriptionFacture = _ObjGenereFacture.Descriptif;
+                NewFacture.DescriptionFacture = _ObjGenereFacture.DescriptionFacture;
 
                 // > (1B) ==>Création d'un ID et chargement des data's  <
                 //     ==> Création d'un nouveau Guid Unique pour le futur ID calculé par le code <
