@@ -548,6 +548,7 @@ namespace EuroDotNet.Controllers
                 //  ### Calcul N° facture 
                 // =-=-=-=-=-=-=-=-=-=-=-=-=
                 var ObjDataProcess = new DataProcess(_context);
+                // ==> Correction 7/6/2022 : je me suis trompé dans l'ID. J'ai corrigé avec "_ObjGenereFacture.ID_Societe". <
                 NumFacCalcule = ObjDataProcess.FactureCalculerNumero(_ObjGenereFacture.ID_Societe);
                 if (NumFacCalcule==null)
                 {
