@@ -17,6 +17,7 @@ namespace EuroDotNet
 {
     public class Startup
     {
+              
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,16 +31,15 @@ namespace EuroDotNet
         {
             // IOC -> Invsersion of Control -> créer des instances ou conserver des instances uniques (singleton) 
             //> DataContextInstance = new DataContext <
-
-            // ===> Connexion à la base locale SQLite <=====
-            services.AddDbContext<DataContext>(options =>
-             options.UseSqlite(Configuration.GetConnectionString("DefaultConnectionSqlite"))); 
-
-            // ===> Connexion à la base SQLServer <=====
-            // services.AddDbContext<DataContext>(options =>
-            //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
                        
-
+                // ===> Connexion à la base locale SQLite <=====
+                services.AddDbContext<DataContext>(options =>
+                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnectionSqlite")));
+           
+                // ===> Connexion à la base SQLServer <=====
+                // services.AddDbContext<DataContext>(options =>
+               // options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+           
             // > Authentification par code <
             //    ( Utilisation de cookies )
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -62,6 +62,7 @@ namespace EuroDotNet
         // Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+                    
             // > Code à ajouter pour permettre la saisie de virgule dans des...
             //   ...valeurs déciamles - DEBUT <
             var cultureInfo = new CultureInfo("fr-FR");
@@ -70,26 +71,27 @@ namespace EuroDotNet
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
             // > FIN <
 
+
             // > En mode développement, on affiche les erreurs <
             //   ( Mais en mode production, on aura PAS les erreurs...
             //     ..du coup, on modifie le code avec "if (true)" ) 
-            // if (env.IsDevelopment())
-            //  > on triche un peu on forçant le booléen à "true" <
-            //  ( Comme ça en production, on aura les erreurs détaillées <
-            if (true)
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-              {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            if (env.IsDevelopment())
+                //  > on triche un peu on forçant le booléen à "true" <
+                //  ( Comme ça en production, on aura les erreurs détaillées <
+                if (true)
+                {
+                    app.UseDeveloperExceptionPage();
+                }
+                else
+                {
+                    app.UseExceptionHandler("/Error");
+                    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                    app.UseHsts();
+                }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-                        // > Pour l'utilisation de [AUTHORIZE] - Debut <
+            // > Pour l'utilisation de [AUTHORIZE] - Debut <
             app.UseAuthentication();
             app.UseAuthorization();
             // > Pour l'utilisation de [AUTHORIZE] - Fin
@@ -97,9 +99,12 @@ namespace EuroDotNet
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-               // > Gestion des contrôleurs ( API ) <
+                // > Gestion des contrôleurs ( API ) <
                 endpoints.MapControllers();
             });
         }
+
+        
+
     }
 }

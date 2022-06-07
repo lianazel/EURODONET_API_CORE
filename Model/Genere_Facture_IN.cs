@@ -22,7 +22,7 @@ namespace EuroDotnet.Model
         // > ID du collaborateur <
         public string ID_Collaborateur { get; set; }
         // > ID du Numro de Société <
-        public string ID_Societe { get; set; }
+        public string ID_Societe_Collaborateur { get; set; }
 
         // > ID Adresse de la société  <
         public string ID_Adresse_Societe { get; set; }

@@ -47,10 +47,10 @@ namespace EuroDotNet.Controllers
         private const string ApiNOK = "NOK<=>";
 
 
-        // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  ### 
-        // ###   ADRESSE => CREATE ou UPDATE                                    ###
-        // ###   ( Analyse valeur de ID Adresse pour savoir si CREATE / UPDATE )### 
-        // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -### 
+        // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    ### 
+        // ###   ADRESSE => CREATE ou UPDATE                                                  ###
+        // ###   ( Analyse état objet renvoyé par lecture  pour savoir si CREATE / UPDATE )   ### 
+        // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -### 
         [HttpPost("{P}")]
         [Route("PostAdress/{P}")]
         public string
@@ -107,7 +107,7 @@ namespace EuroDotNet.Controllers
                 {
 
                     // > On intialise le string <
-                    ResultAPIAction.Remove(0, 5);
+                    ResultAPIAction.Remove(0, 6);
 
                     ResultAPIAction.Append(E.Message);
 
@@ -148,7 +148,7 @@ namespace EuroDotNet.Controllers
             {
 
                 // > On intialise le string <
-                ResultAPIAction.Remove(0, 5);
+                ResultAPIAction.Remove(0, 6);
 
                 ResultAPIAction.Append(E.Message);
             }
@@ -251,7 +251,7 @@ namespace EuroDotNet.Controllers
                     {
 
                         // > On intialise le string <
-                        ResultAPIAction.Remove(0, 5);
+                        ResultAPIAction.Remove(0, 6);
 
                         ResultAPIAction.Append(E.Message);
 
@@ -303,7 +303,7 @@ namespace EuroDotNet.Controllers
                 {
 
                     // > On intialise le string <
-                    ResultAPIAction.Remove(0, 5);
+                    ResultAPIAction.Remove(0, 6);
 
                     ResultAPIAction.Append(E.Message);
 
@@ -335,11 +335,12 @@ namespace EuroDotNet.Controllers
             // > Mémorisation ID Collaborateur <
             //   ( Pour mise à jour des adresses & des sociétés d'un collaborateur <
             string ID_Collab_ME;
+            ID_Collab_ME = "";
 
-            // ==== - - - - - - - - - - - - - - - - - - - - - - -
-            // ==== CTL VALIDITE ADRESSE de COLLABORATEUR       ====
-            // ==== - - - - - - - - - - - - - - - - - - - - - - -
-            var ObjDataCtl = new DataControl(_context);
+           // ==== - - - - - - - - - - - - - - - - - - - - - - -
+           // ==== CTL VALIDITE ADRESSE de COLLABORATEUR       ====
+           // ==== - - - - - - - - - - - - - - - - - - - - - - -
+           var ObjDataCtl = new DataControl(_context);
             // > On appelle la méthode "ChkAdresse()" et on récupère le resultat dans "ResultAPIAction" <
             ResultAPIAction.Append(ObjDataCtl.ChkAdresse(_ObjCollab.FK_ID_Adresse));
             // > Si le controle de validité de l'adresse est OK, on continue <
@@ -399,10 +400,7 @@ namespace EuroDotNet.Controllers
 
                         // > Génération de l'ID  par programme <
                         NewCollab.Id_Collaborateur = ID_Collab_ME;
-
-                        // > On renvoie l'ID calculé <
-                        //   ( On l'ajoute à OK<--> )
-                        ResultAPIAction.Append(NewCollab.Id_Collaborateur);
+                                              
 
                         try
                         {
@@ -512,6 +510,10 @@ namespace EuroDotNet.Controllers
 
             }
 
+            // > On renvoie l'ID calculé <
+            //   ( On l'ajoute à OK<--> )
+            ResultAPIAction.Append(ID_Collab_ME);
+
             // > On renvoie un résultat <
             return ResultAPIAction.ToString();
 
@@ -540,33 +542,70 @@ namespace EuroDotNet.Controllers
             string NumFacCalcule;
             NumFacCalcule = "";
 
+            // > Réception data's de la société du collaborateur <
+            var ObjSocieteCollaborateurLU = new DonetSociete();
+
+            // > Réception data's de l'adresse de la société  <
+            var ObjAdresseSocieteLU = new DonetAdresse();
+
+
             // > Démarre generation facture si paramètres transmis NON NULL <
             if (_ObjGenereFacture != null)
-            {
+            {                   
+
+                // - - - - - - - - - - - -
+                //    ****   Extraction SOCIETE COLLABORATEUR    ****
+                // - - - - - - - - - - - -    
+                var ObjColSocLU = _context.ColSoc.Where(e => e.Id_CollaborateurSociete == _ObjGenereFacture.ID_Societe_Collaborateur).FirstOrDefault();
+                if (ObjColSocLU != null)
+                {
+                    // > On a récupéré l'enregistrement contenant le couple "ID_COLLABORATEUR-ID_SOCIETE"  "ObjColSocLU" <
+                    //            [ rappel : une collaborateur peut avoir plusieurs sociétés ] 
+                    //    ( On va lire les infos de la société   )
+                    ObjSocieteCollaborateurLU = _context.Societe.Where(e => e.Id_Societe == ObjColSocLU.Fk_Id_Societe).FirstOrDefault();
+
+                }
+                else
+                {
+                    JsonFacture.ErrorMessage = "ERR_SCTECOL_1A_" + "Société collabrateur non trouvée. Execution impossible";
+                    // > Utilise le module Json .Net Core <
+                    return Json(JsonFacture);
+                }
+
+
+                // - - - - - - - - - - - -
+                //    ****   Extraction ADRESSE SOCIETE   ****
+                // - - - - - - - - - - - -
+                 var ObjAdrSocLU = _context.SocAdr.Where(e => e.Id_SocieteAdresse == _ObjGenereFacture.ID_Adresse_Societe).FirstOrDefault();
+                if (ObjAdrSocLU != null)
+                {
+                    // > On a récupéré l'enregistrement contenant le couple "ID_SOCIETE-ID_ADRESSE" contenu dans "ObjAdrSocLU"  <
+                    //            [ rappel : une société peut avoir plusieurs adresses] 
+                    //    ( On va lire les infos de l'adresse 
+                    ObjAdresseSocieteLU = _context.Adresse.Where(e => e.Id_Adresse == ObjAdrSocLU.Fk_Id_Adress).FirstOrDefault();
+
+                }
+                else
+                {
+                    JsonFacture.ErrorMessage = "ERR_ADRESCTE_1A_" + "Adresse Société collabrateur non trouvée. Execution impossible";
+                    // > Utilise le module Json .Net Core <
+                    return Json(JsonFacture);
+                }
+
 
                 // =-=-=-=-=-=-=-=-=-=-=-=-=
                 //  ### Calcul N° facture 
                 // =-=-=-=-=-=-=-=-=-=-=-=-=
                 var ObjDataProcess = new DataProcess(_context);
-                NumFacCalcule = ObjDataProcess.FactureCalculerNumero(_ObjGenereFacture.ID_Societe);
-                if (NumFacCalcule==null)
+                // ==> Correction 7/6/2022 : je me suis trompé dans l'ID. J'ai corrigé avec "_ObjGenereFacture.ID_Societe". <
+                NumFacCalcule = ObjDataProcess.FactureCalculerNumero(ObjSocieteCollaborateurLU.Id_Societe);
+                if (NumFacCalcule == null)
                 {
                     JsonFacture.ErrorMessage = "ERR_CALFAC_1A_" + "Numéro de facture null. Traitememt impossible";
                     // > Utilise le module Json .Net Core <
                     return Json(JsonFacture);
                 }
 
-
-                //=-=-=-=-=-=-=-=-=-=-=
-                // ### Extraction Infos Société & Adresse Societe 
-                //=-=-=-=-=-=-=-=-=-=-=
-                // > Extraction Societe <
-                ObjSocieteLu = _context.Societe.Where(F => F.Id_Societe == _ObjGenereFacture.ID_Societe)
-                   .FirstOrDefault();
-
-                // > Extraction Adresse <
-                ObjAdresseLu = _context.Adresse.Where(F => F.Id_Adresse == _ObjGenereFacture.ID_Adresse_Societe)
-                     .FirstOrDefault();
 
                 //=-=-=-=-=-=-=-=-=-=-=
                 // ### Generation Enregistrement Facture 
@@ -577,9 +616,9 @@ namespace EuroDotNet.Controllers
                 // > N° Facture <
                 NewFacture.NumeroFacture = NumFacCalcule;
                 // > ID Société facture <
-                NewFacture.FK_ID_Societe = _ObjGenereFacture.ID_Societe;
+                NewFacture.FK_ID_Societe = ObjSocieteCollaborateurLU.Id_Societe;
                 // > ID Adresse société  facture <
-                NewFacture.FK_ID_Adresse_Societe = _ObjGenereFacture.ID_Adresse_Societe;
+                NewFacture.FK_ID_Adresse_Societe = ObjAdresseSocieteLU.Id_Adresse;
                 // > Description Facture  <
                 NewFacture.DescriptionFacture = _ObjGenereFacture.DescriptionFacture;
 
@@ -625,7 +664,8 @@ namespace EuroDotNet.Controllers
                 JsonFacture.Numero = NewFacture.NumeroFacture;
 
                 // > Adresse la société <
-                JsonFacture.Adresse = ObjAdresseLu;
+                //   ( On envoie l'enregistrement entier )
+                JsonFacture.Adresse = ObjAdresseSocieteLU;
 
                 // > Date Facture  <
                 JsonFacture.Date = NewFacture.DateFacture;

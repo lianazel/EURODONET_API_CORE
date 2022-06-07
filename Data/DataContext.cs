@@ -40,8 +40,5 @@ namespace EuroDotNet.Data
         // > Table des  de facture   <
         public DbSet<DonetFactureGeneration> FactureGeneration{ get; set; }
 
-
-
-
     }
 }
