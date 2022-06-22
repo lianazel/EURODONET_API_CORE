@@ -301,7 +301,7 @@ namespace EuroDotNet_BusinessRules
         //    Le n° de facture est construit avec : 
         //     -> Le n° de société,
         //     -> Un compteur propre à la société incrémenté
-        //        => On obtien alors un numéro unique. 
+        //        => On obtient alors un numéro unique. 
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         public string FactureCalculerNumero(string _Id_Societe)
         {

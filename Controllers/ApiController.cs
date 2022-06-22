@@ -20,8 +20,6 @@ namespace EuroDotNet.Controllers
     [ApiController]
     // > Le contrôleur s'appelle "Api" <
 
-    // > La classe "Controller" permet la gestion du Json" <
-    // ( Rappel : la classe "Controller" hérite de la classe "ControllerBase" )
     public class ApiController : Controller
     {
         // > On déclare un membre "_context"...
@@ -337,10 +335,10 @@ namespace EuroDotNet.Controllers
             string ID_Collab_ME;
             ID_Collab_ME = "";
 
-           // ==== - - - - - - - - - - - - - - - - - - - - - - -
-           // ==== CTL VALIDITE ADRESSE de COLLABORATEUR       ====
-           // ==== - - - - - - - - - - - - - - - - - - - - - - -
-           var ObjDataCtl = new DataControl(_context);
+            // ==== - - - - - - - - - - - - - - - - - - - - - - -
+            // ==== CTL VALIDITE ADRESSE de COLLABORATEUR       ====
+            // ==== - - - - - - - - - - - - - - - - - - - - - - -
+            var ObjDataCtl = new DataControl(_context);
             // > On appelle la méthode "ChkAdresse()" et on récupère le resultat dans "ResultAPIAction" <
             ResultAPIAction.Append(ObjDataCtl.ChkAdresse(_ObjCollab.FK_ID_Adresse));
             // > Si le controle de validité de l'adresse est OK, on continue <
@@ -400,7 +398,7 @@ namespace EuroDotNet.Controllers
 
                         // > Génération de l'ID  par programme <
                         NewCollab.Id_Collaborateur = ID_Collab_ME;
-                                              
+
 
                         try
                         {
@@ -551,7 +549,7 @@ namespace EuroDotNet.Controllers
 
             // > Démarre generation facture si paramètres transmis NON NULL <
             if (_ObjGenereFacture != null)
-            {                   
+            {
 
                 // - - - - - - - - - - - -
                 //    ****   Extraction SOCIETE COLLABORATEUR    ****
@@ -576,7 +574,7 @@ namespace EuroDotNet.Controllers
                 // - - - - - - - - - - - -
                 //    ****   Extraction ADRESSE SOCIETE   ****
                 // - - - - - - - - - - - -
-                 var ObjAdrSocLU = _context.SocAdr.Where(e => e.Id_SocieteAdresse == _ObjGenereFacture.ID_Adresse_Societe).FirstOrDefault();
+                var ObjAdrSocLU = _context.SocAdr.Where(e => e.Id_SocieteAdresse == _ObjGenereFacture.ID_Adresse_Societe).FirstOrDefault();
                 if (ObjAdrSocLU != null)
                 {
                     // > On a récupéré l'enregistrement contenant le couple "ID_SOCIETE-ID_ADRESSE" contenu dans "ObjAdrSocLU"  <
