@@ -1,0 +1,44 @@
+﻿
+
+body {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+    url("/images/API_EURODOTNET.jpg");
+    background-size: cover;
+    height: 100%;
+    overflow: hidden;
+    margin: 0px;
+    color: white;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+
+
+    /* Vue Index (vue accueil ) : Chargement  image fond */
+    Body.Accueil {
+        background-image: url("/images/API_EURODOTNET.jpg")
+    }
+
+/*  Style de classe "accueil" pour le lien qui pointe...
+        ... sur la vue "MenuPizza.cshtml". */
+a.Accueil {
+    color: #DD7835;
+    font-size: 30px;
+    /* L'utilisation du de "display:block" crée un cadre...
+        qui est centré verticalement par la classe ".CentrerObjet"  */
+    display: block;
+    margin-top: 30px;
+    /* Pour aligner le texte dans le bloc créée par "display:block" */
+    text-align: center;
+}
+
+/* Vue Index (page accueil) : centrage objet de la pge  */
+.CentrerObjet {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* Bring your own prefixes */
+    transform: translate(-50%,-50%);
+}
+
