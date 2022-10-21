@@ -40,9 +40,8 @@ namespace EuroDotNet.Controllers
     {
         #region properties
 
-        // > On déclare un membre "_context"...
-        //   ...qui pointe sur le DataContext <
-        // private readonly EuroDotNet.Data.DataContext _context;
+        // > On déclare une Instance "_DonetRepository"  de type "IEuroDonetRepository".
+        // > C'est le fichier "Startup" qui fera le lien 
 
         // On déclare un membre prive QUE personne ne peut modifier 
         private readonly IEuroDonetRepository _DonetRepository;
@@ -67,9 +66,6 @@ namespace EuroDotNet.Controllers
             // > On charge le membre _DonetRepository avec l'objet injecté <
             _DonetRepository = donetrepository;
         }
-
-
-
 
         // ### - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - -      ###
         // ###   ADRESSE = Liste des adresses                                        ###
@@ -116,9 +112,6 @@ namespace EuroDotNet.Controllers
 
             // > On déclare un LIST<T> de "DonetAdresseDropDownItem" <
             List<ML_DonetAdresseDropDownItem> DropDownList = new List<ML_DonetAdresseDropDownItem>();
-
-
-
 
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-===--=-=-=
             // ####  Récupération de la Drop DownList                                                           ###

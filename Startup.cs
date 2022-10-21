@@ -30,16 +30,13 @@ namespace EuroDotNet
         // This method gets called by the runtime.
         // Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            // IOC -> Invsersion of Control -> créer des instances ou conserver des instances uniques (singleton) 
-            //> DataContextInstance = new DataContext <
-                       
+        {                 
             
-            // ===> Connexion à la base locale SQLite <=====
+            // ===> Connexion à la base locale SQLite avec injection du context <=====
             services.AddDbContext<DataContext>(options =>
             options.UseSqlite(Configuration.GetConnectionString("DefaultConnectionSqlite")));
 
-            // ===> Connexion à la base SQLServer <=====
+            // ===> Connexion à la base SQLServer avec injection du context <=====
             // services.AddDbContext<DataContext>(options =>
             // options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -47,11 +44,15 @@ namespace EuroDotNet
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
             // ####     *****   Injectoion de dépendeances  *******           ####
             // ####    Injection de la classe "DefaultEuroDonetRepository"    ####
+            // ####                                                           #### 
+            // ####    Le Framework crée ici le lien entre l'interface ...    #### 
+            // ####    ....et la classe qui utilise cette interface.          #### 
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
             services.AddScoped<IEuroDonetRepository, DefaultEuroDonetRepository>();
 
           
             // > Pour la gestion des Razor Page ( pages Web ) <
+            //   ( je l'utiliose pour afficher une page statique de l'API )
             services.AddRazorPages();
 
             // > Pour la gestion des contrôleur ( API ) <
@@ -61,16 +62,7 @@ namespace EuroDotNet
         // This method gets called by the runtime.
         // Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-                    
-            // > Code à ajouter pour permettre la saisie de virgule dans des...
-            //   ...valeurs déciamles - DEBUT <
-            var cultureInfo = new CultureInfo("fr-FR");
-            cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
-            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-            // > FIN <
-
+        {                 
 
             // > En mode développement, on affiche les erreurs <
             //   ( Mais en mode production, on aura PAS les erreurs...
@@ -91,11 +83,7 @@ namespace EuroDotNet
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            // > Pour l'utilisation de [AUTHORIZE] - Debut <
-            app.UseAuthentication();
-            app.UseAuthorization();
-            // > Pour l'utilisation de [AUTHORIZE] - Fin
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
