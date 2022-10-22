@@ -86,6 +86,11 @@ namespace EuroDotNet.Controllers
             string Msge = (string)Dadr[1];
             adresses = (List<ML_DonetAdresse>)Dadr[2];
 
+            if (Msge != null)
+            { // > On revnoie un status erreur 204 => Pas de données à renvoyer <
+                return this.StatusCode(StatusCodes.Status204NoContent);
+            }
+
             // > Serialiez la liste d'objets <
             var JsonResult = JsonConvert.SerializeObject(adresses);
 
@@ -100,7 +105,7 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -     -### 
         [HttpGet()]
         [Route("GetDropDownListAdresse")]
-        public string GetDropDownListAdresse()
+        public IActionResult GetDropDownListAdresse()
         {
             // > Selection de colonnes dans une requête "Linq" : <
             // https://stackoverflow.com/questions/20069154/how-can-i-select-just-two-columns-from-a-list-using-linq
@@ -118,12 +123,13 @@ namespace EuroDotNet.Controllers
 
             if (Msge != null)
             { // > On revnoie un status erreur 204 => Pas de données à renvoyer <
-                return this.StatusCode(StatusCodes.Status204NoContent).ToString();
+                return this.StatusCode(StatusCodes.Status204NoContent);
             }
         
           // > Serialiez la liste d'objets <
            var JsonResult = JsonConvert.SerializeObject(DropDownList);
-           return (JsonResult);            
+            return this.Ok(JsonResult);
+            //return (JsonResult);            
         }
 
 
