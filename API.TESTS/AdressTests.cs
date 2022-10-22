@@ -1,4 +1,3 @@
-using EuroDonetApi.Controllers;
 using EuroDonetApi.Interface;
 using EuroDotnet.Model;
 using EuroDotNet.Controllers;
@@ -31,7 +30,7 @@ namespace API.TESTS
                 { new ML_DonetAdresse() { NumVoie = 25, TypVoie = "Rue", CodePostal = 31000 } }
             });
 
-            var controler = new ApTestController(RepositoryMoq.Object);
+            var controler = new ApiController(RepositoryMoq.Object);
 
             // #### Act ( Traitement ) ######
             var Result = controler.GetListAdresses();

@@ -69,9 +69,8 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - -      ###
         [HttpGet()]
         [Route("GetListAdresses")]
-        public string GetListAdresses()
+        public IActionResult GetListAdresses()
         {
-
             // > On déclare un LIST<T> de "DonetAdresse" <
             List<ML_DonetAdresse> adresses = new List<ML_DonetAdresse>();
 
@@ -90,8 +89,8 @@ namespace EuroDotNet.Controllers
             // > Serialiez la liste d'objets <
             var JsonResult = JsonConvert.SerializeObject(adresses);
 
-
-            return (JsonResult);
+            return this.Ok(JsonResult);
+            //return (JsonResult);
         }
 
 
