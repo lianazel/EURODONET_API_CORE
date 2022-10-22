@@ -10,7 +10,6 @@ using System.Text;
 
 using System.Text.Json;
 
-
 // > Pour DataControle <
 using EuroDotNet_BusinessRules;
 using Newtonsoft.Json;
@@ -26,7 +25,6 @@ using EuroDonetApi.Interface;
 ///  20/10/2022 - J.C CHERID : Instal repository to deconect _context from Controler 
 /// </summary>
 
-
 // For more information on enabling Web API for empty projects,
 // visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -41,11 +39,9 @@ namespace EuroDotNet.Controllers
         #region properties
 
         // > On déclare une Instance "_DonetRepository"  de type "IEuroDonetRepository".
-        // > C'est le fichier "Startup" qui fera le lien 
-
+        // > C'est le fichier "Startup" qui fera le lien entre l'interface et la classe.
         // On déclare un membre prive QUE personne ne peut modifier 
         private readonly IEuroDonetRepository _DonetRepository;
-
 
         // > le string est immuable => on utilise un "StringBuilder" pour optimisation memmoire <
         private StringBuilder ResultAPIAction = new StringBuilder(1000);
@@ -73,8 +69,7 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - -      ###
         [HttpGet()]
         [Route("GetListAdresses")]
-        public string
-            GetListAdresses()
+        public string GetListAdresses()
         {
 
             // > On déclare un LIST<T> de "DonetAdresse" <
@@ -83,10 +78,11 @@ namespace EuroDotNet.Controllers
             // > Initiamisation de la liste <
             adresses = null;
 
-            // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=
-            // ####    Récupération du tableau des adresses                                                         ###
-            // ####    ( Rappel : la méthode " _DonetRepository.Repo_GetListAdresses() renvoie un dictionnaire )    ###
-            // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=
+            // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=
+            // ####    Récupération du tableau des adresses                                  ###
+            // ####    ( Rappel : la méthode " _DonetRepository.Repo_GetListAdresses()...    ###                        
+            // ####     ...renvoie un dictionnaire )                                         ###
+            // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=
             var Dadr = _DonetRepository.Repo_GetListAdresses();
             string Msge = (string)Dadr[1];
             adresses = (List<ML_DonetAdresse>)Dadr[2];
@@ -121,11 +117,15 @@ namespace EuroDotNet.Controllers
             string Msge = (string)DDdl[1];
             DropDownList = (List<ML_DonetAdresseDropDownItem>)DDdl[2];
 
-
-            // > Serialiez la liste d'objets <
-            var JsonResult = JsonConvert.SerializeObject(DropDownList);
-            return (JsonResult);
-
+            if (Msge != null)
+            { // > On revnoie un status erreur 204 => Pas de données à renvoyer <
+                return this.StatusCode(StatusCodes.Status204NoContent).ToString();
+            }
+        
+          // > Serialiez la liste d'objets <
+           var JsonResult = JsonConvert.SerializeObject(DropDownList);
+           return (JsonResult);
+            
         }
 
 
@@ -207,6 +207,10 @@ namespace EuroDotNet.Controllers
             string Msge = (string)DSocr[1];
             societes = (List<ML_DonetSociete>)DSocr[2];
 
+            if (Msge != null)
+            { // > On revnoie un status erreur 204 => Pas de données à renvoyer <
+                return this.StatusCode(StatusCodes.Status204NoContent).ToString();
+            }
 
             // > Serialiez la liste des sociétes  <
             var JsonResult = JsonConvert.SerializeObject(societes);
@@ -292,6 +296,11 @@ namespace EuroDotNet.Controllers
             string Msge = (string)DCol[1];
             collabs = (List<ML_DonetCollab>)DCol[2];
 
+
+            if (Msge != null)
+            { // > On revnoie un status erreur 204 => Pas de données à renvoyer <
+                return this.StatusCode(StatusCodes.Status204NoContent).ToString();
+            }
 
             // > Serialiez la liste d'objets <
             var JsonResult = JsonConvert.SerializeObject(collabs);

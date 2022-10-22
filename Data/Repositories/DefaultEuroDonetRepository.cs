@@ -17,7 +17,17 @@ namespace EuroDonetApi.Data.Repositories
         #region members 
        private readonly EuroDotNet.Data.DataContext _context;
 
-       
+        // > On déclare une Instance "_ControlRepository" qui applique l'interface "IDataControlRepository".
+        // > C'est le fichier "Startup" qui fera le lien entre l'interface et la classe.
+        // > On déclare un membre prive QUE personne ne peut modifier 
+        private readonly IDataControlRepository _DataControlRepository;
+
+
+        // > On déclare une Instance "_DataProcessRepository"   qui applique l'interface "IDataProcessRepository".
+        // > C'est le fichier "Startup" qui fera le lien entre l'interface et la classe.
+        // > On déclare un membre prive QUE personne ne peut modifier 
+        private readonly IDataProcessRepository _DataProcessRepository;
+
         // > le string est immuable => on utilise un "StringBuilder" pour optimisation memmoire <
         private StringBuilder ResultAPIAction = new StringBuilder(1000);
 
@@ -30,9 +40,20 @@ namespace EuroDonetApi.Data.Repositories
         #region public methods 
 
         // > Constructeur <
-        public DefaultEuroDonetRepository(EuroDotNet.Data.DataContext context)
+        //   ==> L'injection de dépendance permet d'injecter les instances définies dans la classe Statup.cs" 
+        public DefaultEuroDonetRepository(EuroDotNet.Data.DataContext context, IDataControlRepository ControlRepository, IDataProcessRepository DataProcessRepository)
         {
+            // > Context pour accéder à la base <
             _context = context;
+
+            // > Instance "ControlRepository" pour la prise en charge des divers conbtrôles <
+            //    ( La classe "ControlRepository" implémente le contexte ==> transparant ici ) 
+            _DataControlRepository = ControlRepository;
+
+            // > Instance "ControlRepository" pour la prise en charge des divers conbtrôles <
+            //    ( La classe "ControlRepository" implémente le contexte ==> transparant ici ) 
+            _DataProcessRepository = DataProcessRepository;
+
         }
 
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -73,13 +94,7 @@ namespace EuroDonetApi.Data.Repositories
             catch (Exception E)
             {
                 // > Poste 1 contient le message <
-                DAdr[1] = E.Message;
-
-                // > On revnoie un status erreur 204 => Pas de données à renvoyer <
-                // this.StatusCode(StatusCodes.Status204NoContent);
-
-                // > Voir message d'erreur Stack Overflow <
-                // https://stackoverflow.com/questions/45950547/returning-the-exception-from-a-web-api-method
+                DAdr[1] = E.Message;                      
 
             }
 
@@ -136,10 +151,7 @@ namespace EuroDonetApi.Data.Repositories
             }
 
             catch (Exception E)
-            {
-
-                // > On revnoie un status erreur 204 => Pas de données à renvoyer <
-                // this.StatusCode(StatusCodes.Status204NoContent);
+            {                     
 
                 // > Poste 1 contient le message <
                 DDdl[1] = E.Message;
@@ -231,7 +243,6 @@ namespace EuroDonetApi.Data.Repositories
 
 
                 }
-
 
             }
 
@@ -362,15 +373,8 @@ namespace EuroDonetApi.Data.Repositories
             }
 
             catch (Exception E)
-            {
-
-                // > On revnoie un status erreur 204 => Pas de données à renvoyer <
-                // this.StatusCode(StatusCodes.Status204NoContent);
-
-                // > On revnoie un status erreur 204 => Pas de données à renvoyer <
-                // this.StatusCode(StatusCodes.Status204NoContent);
-
-                // > Poste 1 contient le message <
+            {     
+              // > Poste 1 contient le message <
                 DSoc[1] = E.Message;
             }
 
@@ -403,9 +407,12 @@ namespace EuroDonetApi.Data.Repositories
             var ObjDataCtl = new DataControl(_context);
 
             // > On appelle la méthode "ChkAdresse()" et on récupère le resultat dans "ResultAPIAction" <
-            ResultAPIAction.Append(ObjDataCtl.ChkAdresse(_ObjSociete.FK_ID_Adresse));
+            /// ResultAPIAction.Append(ObjDataCtl.ChkAdresse(_ObjSociete.FK_ID_Adresse));
+            
             // > Si le controle de validité de l'adresse est OK, on continue <
             //    (  Voir valeur de "ResultAPIAction" au retour de l'appel de la méthode )
+            ResultAPIAction.Append(_DataControlRepository.ChkAdresse(_ObjSociete.FK_ID_Adresse));
+
 
             // ==== - - - - - - - - - - - - - - - - - - - - - - -
             // ==== CREATE/UPDATE de la SOCIETE              ====
@@ -478,7 +485,6 @@ namespace EuroDonetApi.Data.Repositories
 
                         ResultAPIAction.Append(E.Message);
 
-
                     }
 
                     finally
@@ -519,9 +525,11 @@ namespace EuroDonetApi.Data.Repositories
                     // ==== (3) Une société peut AVOIR PLUSIEURS ADRESSES  ====
                     // ====     Ajoute l'ID adresse à la société           ====
                     // ==== - - - - - - - - - - - - - - - - - - - - - - - - - - 
-                    var ObjDataProcess = new DataProcess(_context);
-                    ResultAPIAction.Append(ObjDataProcess.SocieteAddAdress(ID_Societe_ME, _ObjSociete.FK_ID_Adresse));
+                    //var ObjDataProcess = new DataProcess(_context);
+                    // ResultAPIAction.Append(ObjDataProcess.SocieteAddAdress(ID_Societe_ME, _ObjSociete.FK_ID_Adresse));
+
                     //    (  Voir valeur de "ResultAPIAction" au retour de l'appel de la méthode )
+                    ResultAPIAction.Append(_DataProcessRepository.SocieteAddAdress(ID_Societe_ME, _ObjSociete.FK_ID_Adresse));
 
                 }
 
@@ -662,12 +670,13 @@ namespace EuroDonetApi.Data.Repositories
             // ==== - - - - - - - - - - - - - - - - - - - - - - -
             // ==== CTL VALIDITE ADRESSE de COLLABORATEUR       ====
             // ==== - - - - - - - - - - - - - - - - - - - - - - -
-            var ObjDataCtl = new DataControl(_context);
+            
             // > On appelle la méthode "ChkAdresse()" et on récupère le resultat dans "ResultAPIAction" <
-            ResultAPIAction.Append(ObjDataCtl.ChkAdresse(_ObjCollab.FK_ID_Adresse));
+            //    (  Voir valeur de "ResultAPIAction" au retour de l'appel de la méthode )
+            ResultAPIAction.Append(_DataControlRepository.ChkAdresse(_ObjCollab.FK_ID_Adresse));
+
             // > Si le controle de validité de l'adresse est OK, on continue <
             //    (  Voir valeur de "ResultAPIAction" au retour de l'appel de la méthode )
-
 
             if (ResultAPIAction.ToString() == ApiOK)
 
@@ -684,11 +693,10 @@ namespace EuroDonetApi.Data.Repositories
                 {
 
                 }
-                // > On appelle la méthode "ChkSociete()" et on récupère le resultat dans "ResultAPIAction" <
-                ResultAPIAction.Append(ObjDataCtl.ChkSociete(_ObjCollab.FK_ID_Societe));
-                // > Si le controle de validité de l'adresse est OK, on continue <
-                //    (  Voir valeur de "ResultAPIAction" au retour de l'appel de la méthode )
 
+                // > On appelle la méthode "ChkSociete()" et on récupère le resultat dans "ResultAPIAction" <
+                ResultAPIAction.Append(_DataControlRepository.ChkSociete(_ObjCollab.FK_ID_Societe));
+               
 
                 // ==== - - - - - - - - - - - - - - - - - - - - - - -
                 // ==== CREATE/UPDATE de COLLABORATEUR              ====
@@ -786,10 +794,12 @@ namespace EuroDonetApi.Data.Repositories
                         {
 
                         }
-                        var ObjDataProcess = new DataProcess(_context);
-                        ResultAPIAction.Append(ObjDataProcess.CollabAddAdress(ID_Collab_ME, _ObjCollab.FK_ID_Adresse));
-                        //    (  Voir valeur de "ResultAPIAction" au retour de l'appel de la méthode )
+                        
 
+                        // > Ajout (si necessaire ) de l'adresse au collaborateur <
+                        ResultAPIAction.Append(_DataProcessRepository.CollabAddAdress(ID_Collab_ME, _ObjCollab.FK_ID_Adresse));
+                        
+                        // > Si pas d'erreur détectée, on continue <
                         if (ResultAPIAction.ToString() == ApiOK)
                         {
                             // ==== - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -805,7 +815,7 @@ namespace EuroDonetApi.Data.Repositories
                             {
 
                             }
-                            ResultAPIAction.Append(ObjDataProcess.CollabAddSociete(ID_Collab_ME, _ObjCollab.FK_ID_Societe));
+                            ResultAPIAction.Append(_DataProcessRepository.CollabAddSociete(ID_Collab_ME, _ObjCollab.FK_ID_Societe));
                             //    (  Voir valeur de "ResultAPIAction" au retour de l'appel de la méthode )
                         }
 
@@ -919,9 +929,8 @@ namespace EuroDonetApi.Data.Repositories
                 // =-=-=-=-=-=-=-=-=-=-=-=-=
                 //  ### Calcul N° facture 
                 // =-=-=-=-=-=-=-=-=-=-=-=-=
-                var ObjDataProcess = new DataProcess(_context);
                 // ==> Correction 7/6/2022 : je me suis trompé dans l'ID. J'ai corrigé avec "_ObjGenereFacture.ID_Societe". <
-                NumFacCalcule = ObjDataProcess.FactureCalculerNumero(ObjSocieteCollaborateurLU.Id_Societe);
+                NumFacCalcule = _DataProcessRepository.FactureCalculerNumero(ObjSocieteCollaborateurLU.Id_Societe);
                 if (NumFacCalcule == null)
                 {
                     JsonFacture.ErrorMessage = "ERR_CALFAC_1A_" + "Numéro de facture null. Traitememt impossible";

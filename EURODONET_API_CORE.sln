@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EuroDonetApi", "EuroDonetApi.csproj", "{1B448336-B6B0-452C-B322-76855F65C8BB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{C570D532-6D48-41CF-8E22-9ADB6580B83E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.API", "..\Test.API\Test.API.csproj", "{5229F998-946F-42E2-92F6-FD2CE95FCC60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{1B448336-B6B0-452C-B322-76855F65C8BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B448336-B6B0-452C-B322-76855F65C8BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B448336-B6B0-452C-B322-76855F65C8BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5229F998-946F-42E2-92F6-FD2CE95FCC60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5229F998-946F-42E2-92F6-FD2CE95FCC60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5229F998-946F-42E2-92F6-FD2CE95FCC60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5229F998-946F-42E2-92F6-FD2CE95FCC60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5229F998-946F-42E2-92F6-FD2CE95FCC60} = {C570D532-6D48-41CF-8E22-9ADB6580B83E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {91909B2C-C7C4-47E7-A057-C2674DBEDA20}

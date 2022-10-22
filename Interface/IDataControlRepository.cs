@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EuroDonetApi.Interface
 {
-    public interface IControlRepository
+    public interface IDataControlRepository
     {
 
         #region Methods

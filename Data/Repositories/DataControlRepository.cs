@@ -1,29 +1,14 @@
-﻿using System;
+﻿using EuroDonetApi.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// > Accès aux données <
-using EuroDotNet.Data;
-
-// #### ==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// ####      *****    Attention   ******           ######
-// ####           N'est plus utilisé               ######
-// ####   Remplacé par "ControlRepository"         ######
-// ####   Voir fichier "Startup.cs" : prise en...  ######
-// ####   ...charge par injection de dépendance.   ######
-// #### ==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-namespace EuroDotNet_BusinessRules
+namespace EuroDonetApi.Data.Repositories
 {
-    // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    // > Cette classe effectue les controles divers <
-    //   => Le contrôleur reçoit un ID 
-    // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    public class DataControl
+    public class DataControlRepository :IDataControlRepository
     {
-
         // > On déclare un membre "_context"...
         //   ...qui pointe sur le DataContext <
         private readonly EuroDotNet.Data.DataContext _context;
@@ -37,14 +22,13 @@ namespace EuroDotNet_BusinessRules
         private const string CtlDataNOK = "NOK<=>";
 
         // > Constructeur <
-        public DataControl(EuroDotNet.Data.DataContext context)
+        public DataControlRepository(EuroDotNet.Data.DataContext context)
         {
             // > On charge le membre de la classe avec le paramètre...
             //   ...reçu par le constructeur <
             _context = context;
 
         }
-
 
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         // > Cette adresse existe-t-elle ? 
@@ -120,6 +104,9 @@ namespace EuroDotNet_BusinessRules
             return ResultCtl.ToString();
 
         }
+
+
+
 
     }
 }

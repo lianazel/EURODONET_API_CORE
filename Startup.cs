@@ -15,6 +15,10 @@ using System.Threading.Tasks;
 using EuroDonetApi.Data.Repositories;
 using EuroDonetApi.Interface;
 
+// > Extension methods <
+using EuroDonetApi.ExtensionMethods;
+
+
 namespace EuroDotNet
 {
     public class Startup
@@ -41,16 +45,13 @@ namespace EuroDotNet
             // options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 
-            // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-            // ####     *****   Injectoion de dépendeances  *******           ####
-            // ####    Injection de la classe "DefaultEuroDonetRepository"    ####
-            // ####                                                           #### 
-            // ####    Le Framework crée ici le lien entre l'interface ...    #### 
-            // ####    ....et la classe qui utilise cette interface.          #### 
-            // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-            services.AddScoped<IEuroDonetRepository, DefaultEuroDonetRepository>();
+            // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+            // ####     *****   Injectoion de dépendeances  *******                  ####
+            // ####    Les injections sont déportées dans une méthode d'extension    #### 
+            // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=
+            services.AddInjections();
 
-          
+
             // > Pour la gestion des Razor Page ( pages Web ) <
             //   ( je l'utiliose pour afficher une page statique de l'API )
             services.AddRazorPages();

@@ -40,20 +40,25 @@ namespace EuroDotNet
                     webBuilder.UseStartup<Startup>();
                 });
 
+        // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        // > Création de la BDD si elle n'est pas présente <
+        // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         private static void CreateDbIfNotExists(IHost host)
         {
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
+                // > Tentative de création de la BDD <
                 try
                 {
                     var context = services.GetRequiredService<DataContext>();
                     context.Database.EnsureCreated();
                 }
+                // > Quelquechose s'est mal passé...<
                 catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred creating the DB.");
+                    logger.LogError(ex, "ERR-DB-01A -> Eerreur détectée à la création de la BDD.");
                 }
             }
         }
