@@ -87,11 +87,11 @@ namespace EuroDotNet.Controllers
             string Msge = (string)Dadr[1];
             adresses = (List<ML_DonetAdresse>)Dadr[2];
 
-
             // > Serialiez la liste d'objets <
             var JsonResult = JsonConvert.SerializeObject(adresses);
-            return (JsonResult);
 
+
+            return (JsonResult);
         }
 
 
@@ -124,8 +124,7 @@ namespace EuroDotNet.Controllers
         
           // > Serialiez la liste d'objets <
            var JsonResult = JsonConvert.SerializeObject(DropDownList);
-           return (JsonResult);
-            
+           return (JsonResult);            
         }
 
 
@@ -319,7 +318,6 @@ namespace EuroDotNet.Controllers
         public string PostCollab(ML_DonetCollab _ObjCollab)
         {
 
-
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=
             // ####  Insérer/Mettre à jour d'un collaborateur                                                     ###
             // #### ( Rappel : la méthode "_DonetRepository.Repo_PostSociete(_ObjSociete) renvoie string          ###
@@ -328,8 +326,6 @@ namespace EuroDotNet.Controllers
 
             // > On renvoie un résultat <
             return this.Ok(Msge).ToString();
-
-
 
         }
 
@@ -344,20 +340,17 @@ namespace EuroDotNet.Controllers
             // > Objet  pour le renvoie sous Json <
             var JsonFacture = new ML_Genere_Facture_OUT();
 
-
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=
             // ####  Récupération d'une société                                                                    ###
             // #### ( Rappel : la méthode "_DonetRepository.Repo_GetAdresse(_IDAdress) renvoie un enregistrement   ###
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--==-=-=
             JsonFacture = _DonetRepository.Repo_GetFacture(_ObjGenereFacture);
 
-
             // > Utilise le module Json .Net Core <
             return Json(JsonFacture);
 
         }
-
-    }
+     }
 
     #endregion
 
