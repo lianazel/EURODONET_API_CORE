@@ -28,16 +28,16 @@ namespace EuroDotNet
         // This method gets called by the runtime.
         // Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            // IOC -> Invsersion of Control -> créer des instances ou conserver des instances uniques (singleton) 
-            //> DataContextInstance = new DataContext <
-                       
+        {                                   
                 // ===> Connexion à la base locale SQLite <=====
                // services.AddDbContext<DataContext>(options =>
                // options.UseSqlite(Configuration.GetConnectionString("DefaultConnectionSqlite")));
            
-                // ===> Connexion à la base SQLServer <=====
-                services.AddDbContext<DataContext>(options =>
+            
+            
+            
+            // ===> Connexion à la base SQLServer <=====
+               services.AddDbContext<DataContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
           
             // > Pour la gestion des Razor Page ( pages Web ) <
@@ -50,17 +50,8 @@ namespace EuroDotNet
         // This method gets called by the runtime.
         // Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-                    
-            // > Code à ajouter pour permettre la saisie de virgule dans des...
-            //   ...valeurs déciamles - DEBUT <
-            var cultureInfo = new CultureInfo("fr-FR");
-            cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
-            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-            // > FIN <
-
-
+        {       
+         
             // > En mode développement, on affiche les erreurs <
             //   ( Mais en mode production, on aura PAS les erreurs...
             //     ..du coup, on modifie le code avec "if (true)" ) 
