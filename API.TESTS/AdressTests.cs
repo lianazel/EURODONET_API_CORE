@@ -76,5 +76,38 @@ namespace API.TESTS
 
         }
 
+        // =-=-=-=-=-=-=-=-=-=-=-=-=-=
+        // ### Sauver/Mettre à jour une adresse 
+        // =-=-=-=-=-=-=-=-=-=-=-=-=-=
+        [Fact]
+        public void Post_Adress()
+        {
+            var RepositoryMoq = new Mock<IEuroDonetRepository>();
+
+            var ad = new ML_DonetAdresse()
+            {
+                Adresse_1 = "Allées des peupliers",
+                Adresse_2 = "",
+                NumVoie= 25,
+                TypVoie = "RUE",
+            };
+
+            // #### Arrange ( Préparation ) ######
+            RepositoryMoq.Setup(item => item.Repo_PostAdresse(ad));
+            
+
+            var controler = new ApiController(RepositoryMoq.Object);
+
+            // #### Act ( Traitement ) ######
+            var Result = controler.PostAdress(ad);
+
+            // #### Assertion  ( Prouver que c'est OK  ) ######
+            Assert.NotNull(Result);
+
+            Assert.IsType<OkObjectResult>(Result);
+            OkObjectResult OkRes = (OkObjectResult)Result;
+
+        }
+
     }
 }

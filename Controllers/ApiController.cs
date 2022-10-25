@@ -170,10 +170,9 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -### 
         [HttpPost("{P}")]
         [Route("PostAdress/{P}")]
-        public string PostAdress(ML_DonetAdresse _ObjAdress)
+        // public string PostAdress(ML_DonetAdresse _ObjAdress)
+        public IActionResult PostAdress(ML_DonetAdresse _ObjAdress)
         {
-
-
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=
             // ####  Insérer/Mettre à jour une adresse                                                             ###
             // #### ( Rappel : la méthode "_DonetRepository.Repo_GetAdresse(_IDAdress) renvoie  un string          ###
@@ -181,9 +180,9 @@ namespace EuroDotNet.Controllers
             string Msge = _DonetRepository.Repo_PostAdresse(_ObjAdress);
 
             // > On renvoie un résultat <
-            return this.Ok(Msge).ToString();
-
+            return this.Ok(Msge);
         }
+
 
         // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -      ###
         // ###   SOCIETE = Liste des sociétés                                                 ###
