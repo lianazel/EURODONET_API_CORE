@@ -170,7 +170,6 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -### 
         [HttpPost("{P}")]
         [Route("PostAdress/{P}")]
-        // public string PostAdress(ML_DonetAdresse _ObjAdress)
         public IActionResult PostAdress(ML_DonetAdresse _ObjAdress)
         {
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=
