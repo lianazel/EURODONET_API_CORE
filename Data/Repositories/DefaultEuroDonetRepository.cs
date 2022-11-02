@@ -1,4 +1,5 @@
-﻿using API.Core.Framework;
+﻿using API.Core.Framawork;
+
 using EuroDonetApi.Interface;
 using EuroDotnet.Model;
 using EuroDotNet_BusinessRules;
@@ -15,7 +16,7 @@ namespace EuroDonetApi.Data.Repositories
 {
     public class DefaultEuroDonetRepository : IEuroDonetRepository
     {
-        #region members 
+        #region fields 
        private readonly EuroDotNet.Data.DataContext _context;
 
         // > On déclare une Instance "_ControlRepository" qui respecte le contrat...
@@ -38,8 +39,10 @@ namespace EuroDonetApi.Data.Repositories
         private const string ApiOK = "OK<-->";
         private const string ApiNOK = "NOK<=>";
 
-        public IUnitOfWork UnitOfWork => this._context;
+        #endregion
 
+        #region members
+        public IUnitOfWork UnitOfWork => (IUnitOfWork)this._context;
         #endregion
 
         #region public methods 
@@ -268,8 +271,10 @@ namespace EuroDonetApi.Data.Repositories
 
             try
             {
-                // >  (2) ==> En CREATE/UPDATE ==> confirme changement <  <
-                _context.SaveChanges();
+                // >  (2) ==> En CREATE/UPDATE ==> confirme changement <  
+                //    *** Atention => Passe par le UnitOfWork ***
+                UnitOfWork.SaveChanges();
+                // ***  _context.SaveChanges(); *** 
             }
 
             // > Une erreur est détectée <
@@ -520,7 +525,9 @@ namespace EuroDonetApi.Data.Repositories
                 try
                 {
                     // >  (2) ==> En CREATE/UPDATE ==> confirme changement <  <
-                    _context.SaveChanges();
+                    //    *** Atention => Passe par le UnitOfWork ***
+                    UnitOfWork.SaveChanges();
+                    // ***  _context.SaveChanges(); *** 
 
 
                     // ==== - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -780,7 +787,9 @@ namespace EuroDonetApi.Data.Repositories
                     try
                     {
                         // >  (2) ==> En CREATE/UPDATE ==> confirme changement <  <
-                        _context.SaveChanges();
+                        //    *** Atention => Passe par le UnitOfWork ***
+                        UnitOfWork.SaveChanges();
+                        // ***  _context.SaveChanges(); *** 
 
 
                         // ==== - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -970,7 +979,9 @@ namespace EuroDonetApi.Data.Repositories
 
                     // >  En CREATION ==> Ajout dans le contexte < 
                     _context.FactureGeneration.Add(NewFacture);
-                    _context.SaveChanges();
+                    //    *** Atention => Passe par le UnitOfWork ***
+                    UnitOfWork.SaveChanges();
+                    // ***  _context.SaveChanges(); *** 
                 }
 
                 // > Une erreur est détectée <

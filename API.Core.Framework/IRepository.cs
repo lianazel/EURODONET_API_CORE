@@ -4,15 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace API.Core.Framework
+namespace API.Core.Framawork
 {
-    /// <summary>
-    /// Implements a member of type "IUnitOfWork"
-    /// </summary>
     public interface IRepository
     {
-
-         IUnitOfWork UnitOfWork { get; }
+        public IUnitOfWork UnitOfWork { get; }
 
     }
 }

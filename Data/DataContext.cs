@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using EuroDonetApi.Data.Configuration;
-using API.Core.Framework;
+using API.Core.Framawork;
 
 namespace EuroDotNet.Data
 {

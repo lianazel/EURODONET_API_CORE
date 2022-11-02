@@ -1,4 +1,5 @@
-﻿using API.Core.Framework;
+﻿
+using API.Core.Framawork;
 using EuroDonetApi.Interface;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace EuroDonetApi.Data.Repositories
 {
     public class DataControlRepository :IDataControlRepository
     {
+        #region fields 
         // > On déclare un membre "_context"...
         //   ...qui pointe sur le DataContext <
         private readonly EuroDotNet.Data.DataContext _context;
@@ -21,9 +23,13 @@ namespace EuroDonetApi.Data.Repositories
         // > Constante de traitements <
         private const string CtlDataOK = "OK<-->";
         private const string CtlDataNOK = "NOK<=>";
+        #endregion
+
+        #region members
+        public IUnitOfWork UnitOfWork => (IUnitOfWork)this._context;
+        #endregion
 
 
-        public IUnitOfWork UnitOfWork => this._context;
 
         // > Constructeur <
         public DataControlRepository(EuroDotNet.Data.DataContext context)
