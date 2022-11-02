@@ -1,4 +1,5 @@
-﻿using EuroDonetApi.Interface;
+﻿using API.Core.Framework;
+using EuroDonetApi.Interface;
 using EuroDotnet.Model;
 using EuroDotNet_BusinessRules;
 using System;
@@ -36,6 +37,9 @@ namespace EuroDonetApi.Data.Repositories
         // > Constante de traitements <
         private const string ApiOK = "OK<-->";
         private const string ApiNOK = "NOK<=>";
+
+        public IUnitOfWork UnitOfWork => this._context;
+
         #endregion
 
         #region public methods 

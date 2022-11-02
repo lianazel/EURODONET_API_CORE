@@ -1,11 +1,16 @@
-﻿using System;
+﻿using API.Core.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace EuroDonetApi.Interface
 {
-    public interface IDataControlRepository
+    /// <summary>
+    /// Interface for "DataControlRepository" (Inherited from "IRepository")
+    /// </summary>
+
+    public interface IDataControlRepository  : IRepository
     {
 
         #region Methods

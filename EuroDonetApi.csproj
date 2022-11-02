@@ -26,4 +26,8 @@
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="API.Core.Framework\API.Core.Framework.csproj" />
+  </ItemGroup>
+
 </Project>

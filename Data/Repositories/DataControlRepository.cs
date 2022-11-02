@@ -1,4 +1,5 @@
-﻿using EuroDonetApi.Interface;
+﻿using API.Core.Framework;
+using EuroDonetApi.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,9 @@ namespace EuroDonetApi.Data.Repositories
         // > Constante de traitements <
         private const string CtlDataOK = "OK<-->";
         private const string CtlDataNOK = "NOK<=>";
+
+
+        public IUnitOfWork UnitOfWork => this._context;
 
         // > Constructeur <
         public DataControlRepository(EuroDotNet.Data.DataContext context)

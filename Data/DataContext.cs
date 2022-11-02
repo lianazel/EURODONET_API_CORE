@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using EuroDonetApi.Data.Configuration;
+using API.Core.Framework;
 
 namespace EuroDotNet.Data
 {
@@ -15,7 +16,7 @@ namespace EuroDotNet.Data
     // ###       ( ici l'ORM              => entity Framework          )
     // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=
 
-    public class DataContext : DbContext
+    public class DataContext : DbContext, IUnitOfWork
     {
         // > Constructeur <
         public DataContext(DbContextOptions<DataContext> options) : base(options)
