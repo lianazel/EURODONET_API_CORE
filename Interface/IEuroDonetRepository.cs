@@ -1,4 +1,6 @@
-﻿using EuroDotnet.Model;
+﻿
+using API.Core.Framawork;
+using EuroDotnet.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +8,11 @@ using System.Threading.Tasks;
 
 namespace EuroDonetApi.Interface
 {
-    public interface IEuroDonetRepository
+    /// <summary>
+    /// Interface for "DefaultEuroDonetRepository" (Inherited from "IRepository")
+    /// </summary>
+
+    public interface IEuroDonetRepository : IRepository
     {
         #region méthods 
         // *****    Adresse  **** 

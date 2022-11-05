@@ -5,9 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="API.Core.Framework\**" />
     <Compile Remove="API.TESTS\**" />
+    <Content Remove="API.Core.Framework\**" />
     <Content Remove="API.TESTS\**" />
+    <EmbeddedResource Remove="API.Core.Framework\**" />
     <EmbeddedResource Remove="API.TESTS\**" />
+    <None Remove="API.Core.Framework\**" />
     <None Remove="API.TESTS\**" />
   </ItemGroup>
 
@@ -24,6 +28,10 @@
 
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="API.Core.Framework\API.Core.Framework.csproj" />
   </ItemGroup>
 
 </Project>

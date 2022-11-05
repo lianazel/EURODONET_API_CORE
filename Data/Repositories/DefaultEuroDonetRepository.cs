@@ -1,4 +1,6 @@
-﻿using EuroDonetApi.Interface;
+﻿using API.Core.Framawork;
+
+using EuroDonetApi.Interface;
 using EuroDotnet.Model;
 using EuroDotNet_BusinessRules;
 using System;
@@ -14,16 +16,18 @@ namespace EuroDonetApi.Data.Repositories
 {
     public class DefaultEuroDonetRepository : IEuroDonetRepository
     {
-        #region members 
+        #region fields 
        private readonly EuroDotNet.Data.DataContext _context;
 
-        // > On déclare une Instance "_ControlRepository" qui applique l'interface "IDataControlRepository".
+        // > On déclare une Instance "_ControlRepository" qui respecte le contrat...
+        //   ...de  l'interface "IDataControlRepository".
         // > C'est le fichier "Startup" qui fera le lien entre l'interface et la classe.
         // > On déclare un membre prive QUE personne ne peut modifier 
         private readonly IDataControlRepository _DataControlRepository;
 
 
-        // > On déclare une Instance "_DataProcessRepository"   qui applique l'interface "IDataProcessRepository".
+        // > On déclare une Instance "_DataProcessRepository"  qui respecte le contrat...
+        //  ...l'interface "IDataProcessRepository".
         // > C'est le fichier "Startup" qui fera le lien entre l'interface et la classe.
         // > On déclare un membre prive QUE personne ne peut modifier 
         private readonly IDataProcessRepository _DataProcessRepository;
@@ -37,23 +41,27 @@ namespace EuroDonetApi.Data.Repositories
 
         #endregion
 
-        #region public methods 
+        #region members
+        public IUnitOfWork UnitOfWork => (IUnitOfWork)this._context;
+        #endregion
 
+        #region public methods 
         // > Constructeur <
-        //   ==> L'injection de dépendance permet d'injecter les instances définies dans la classe Statup.cs" 
-        public DefaultEuroDonetRepository(EuroDotNet.Data.DataContext context, IDataControlRepository ControlRepository, IDataProcessRepository DataProcessRepository)
+        //   ==> L'injection de dépendance permet d'injecter les ...
+        //       ...instances définies dans la classe Statup.cs" 
+        public DefaultEuroDonetRepository(EuroDotNet.Data.DataContext context, 
+            IDataControlRepository ControlRepository, IDataProcessRepository DataProcessRepository)
         {
             // > Context pour accéder à la base <
             _context = context;
 
-            // > Instance "ControlRepository" pour la prise en charge des divers conbtrôles <
+            // > Instance "ControlRepository" pour la prise en charge des divers contrôles <
             //    ( La classe "ControlRepository" implémente le contexte ==> transparant ici ) 
             _DataControlRepository = ControlRepository;
 
             // > Instance "ControlRepository" pour la prise en charge des divers conbtrôles <
             //    ( La classe "ControlRepository" implémente le contexte ==> transparant ici ) 
             _DataProcessRepository = DataProcessRepository;
-
         }
 
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -64,11 +72,11 @@ namespace EuroDonetApi.Data.Repositories
         //   ==> Poste 1 => Message d'erreur,
         //   ==> Poste 2 => La liste des adresses 
         public Dictionary<int, object> Repo_GetListAdresses()
-
         {
             // > Initialisation du dictionnaire <
             // > Le dictionnaire est juste un TABLEAU ASSOCIATIF <
-            // > On associe un INDICE (int) à un objet ( qui peut être un STRING ou une liste d'objets (list<ML_DonetAdresse> ) <   
+            // > On associe un INDICE (int) à un objet ( qui peut être un
+            // ....STRING ou une liste d'objets (list<ML_DonetAdresse> ) <   
 
             // > Par défaut, tableau associatif initialisé à null <
             var DAdr = new Dictionary<int, object>
@@ -77,18 +85,16 @@ namespace EuroDonetApi.Data.Repositories
                 [2] = null
             };
 
-
             // > On déclare un LIST<T> de "DonetAdresse" <
             List<ML_DonetAdresse> adresses = new List<ML_DonetAdresse>();
 
-            // > Iniliamisation de la liste <
+            // > Initialisation de la liste <
             adresses = null;
 
             try
             {
                 // > Tentative de récupération des adresses <
                 adresses = _context.Adresse.ToList();
-
             }
 
             catch (Exception E)
@@ -102,7 +108,6 @@ namespace EuroDonetApi.Data.Repositories
             {
 
             }
-
             // > Poste 2 contient la liste des adresses  <
             DAdr[2] = adresses;
 
@@ -266,8 +271,10 @@ namespace EuroDonetApi.Data.Repositories
 
             try
             {
-                // >  (2) ==> En CREATE/UPDATE ==> confirme changement <  <
-                _context.SaveChanges();
+                // >  (2) ==> En CREATE/UPDATE ==> confirme changement <  
+                //    *** Atention => Passe par le UnitOfWork ***
+                UnitOfWork.SaveChanges();
+                // ***  _context.SaveChanges(); *** 
             }
 
             // > Une erreur est détectée <
@@ -518,7 +525,9 @@ namespace EuroDonetApi.Data.Repositories
                 try
                 {
                     // >  (2) ==> En CREATE/UPDATE ==> confirme changement <  <
-                    _context.SaveChanges();
+                    //    *** Atention => Passe par le UnitOfWork ***
+                    UnitOfWork.SaveChanges();
+                    // ***  _context.SaveChanges(); *** 
 
 
                     // ==== - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -778,7 +787,9 @@ namespace EuroDonetApi.Data.Repositories
                     try
                     {
                         // >  (2) ==> En CREATE/UPDATE ==> confirme changement <  <
-                        _context.SaveChanges();
+                        //    *** Atention => Passe par le UnitOfWork ***
+                        UnitOfWork.SaveChanges();
+                        // ***  _context.SaveChanges(); *** 
 
 
                         // ==== - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -968,7 +979,9 @@ namespace EuroDonetApi.Data.Repositories
 
                     // >  En CREATION ==> Ajout dans le contexte < 
                     _context.FactureGeneration.Add(NewFacture);
-                    _context.SaveChanges();
+                    //    *** Atention => Passe par le UnitOfWork ***
+                    UnitOfWork.SaveChanges();
+                    // ***  _context.SaveChanges(); *** 
                 }
 
                 // > Une erreur est détectée <
