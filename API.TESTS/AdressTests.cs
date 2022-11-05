@@ -2,9 +2,13 @@ using EuroDonetApi.Interface;
 using EuroDotnet.Model;
 using EuroDotNet.Controllers;
 using Microsoft.AspNetCore.Mvc;
+
+// > Moq <
 using Moq;
 using System;
 using System.Collections.Generic;
+
+// > Xunit <
 using Xunit;
 
 namespace API.TESTS
@@ -12,9 +16,12 @@ namespace API.TESTS
     public class AdressTests
     {
 
-        //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        //- - - - - - - - - - - - - - - - - - - - - - - -
         // ## Mise en place selon 3 actes 
-        //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        //- - - - - - - - - - - - - - - - - - - - - - - -
+        // 1/ Arrange    ( Préparation )
+        // 2/ Act        ( Traitement ) 
+        // 3/ Assertion  ( Prouver que c'est OK  )
 
 
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -60,7 +67,8 @@ namespace API.TESTS
             {
                 [1] = null,
                 [2] = new List<ML_DonetAdresseDropDownItem>()
-                { new ML_DonetAdresseDropDownItem() { Id_Adresse = "12a8541e89741dqaze874", LibelleAdresse="AIRBUS SITE 1" } }
+                { new ML_DonetAdresseDropDownItem() { Id_Adresse = "12a8541e89741dqaze874",
+                    LibelleAdresse="AIRBUS SITE 1" } }
             });
 
             var controler = new ApiController(RepositoryMoq.Object);
