@@ -128,8 +128,8 @@ namespace EuroDotNet.Controllers
         
           // > Serialiez la liste d'objets <
            var JsonResult = JsonConvert.SerializeObject(DropDownList);
-            return this.Ok(JsonResult);
-            //return (JsonResult);            
+           return this.Ok(JsonResult);
+                   
         }
 
 
@@ -139,8 +139,7 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - - - - - - - - -  - - -### 
         [HttpPost("{P}")]
         [Route("GetAdress/{P}")]
-        public string
-        GetAdress(string _IDAdress)
+        public string   GetAdress([FromQuery]string _IDAdress)
         {
             // > String pour renvoi au format Json <
             string JsonResult;
@@ -170,7 +169,7 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -### 
         [HttpPost("{P}")]
         [Route("PostAdress/{P}")]
-        public IActionResult PostAdress(ML_DonetAdresse _ObjAdress)
+        public IActionResult PostAdress([FromBody] ML_DonetAdresse _ObjAdress)
         {
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=
             // ####  Insérer/Mettre à jour une adresse                                                             ###
@@ -179,7 +178,7 @@ namespace EuroDotNet.Controllers
             string Msge = _DonetRepository.Repo_PostAdresse(_ObjAdress);
 
             // > On renvoie un résultat <
-            return this.Ok(Msge);
+            return this.Ok(Json(Msge));
         }
 
 
@@ -191,7 +190,7 @@ namespace EuroDotNet.Controllers
         //   https://stackoverflow.com/questions/9110724/serializing-a-list-to-json
         [HttpGet()]
         [Route("GetListSocietes")]
-        public string GetListSocietes()
+        public IActionResult GetListSocietes()
         {
 
             // > On déclare un LIST<T> de "DonetSociete" <
@@ -211,12 +210,12 @@ namespace EuroDotNet.Controllers
 
             if (Msge != null)
             { // > On revnoie un status erreur 204 => Pas de données à renvoyer <
-                return this.StatusCode(StatusCodes.Status204NoContent).ToString();
+                return this.StatusCode(StatusCodes.Status204NoContent);
             }
 
             // > Serialiez la liste des sociétes  <
             var JsonResult = JsonConvert.SerializeObject(societes);
-            return (JsonResult);
+            return this.Ok(JsonResult);
 
         }
 
@@ -227,8 +226,7 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -### 
         [HttpPost("{P}")]
         [Route("GetSociete/{P}")]
-        public string
-        GetSociete(string _IDSociete)
+        public IActionResult GetSociete([FromQuery] string _IDSociete)
         {
             // > String pour renvoi au format Json <
             string JsonResult;
@@ -249,7 +247,7 @@ namespace EuroDotNet.Controllers
             JsonResult = JsonConvert.SerializeObject(AS);
 
             // > Renvoi de l'enregistrement <
-            return (JsonResult);
+            return this.Ok(JsonResult);
 
         }
 
@@ -261,7 +259,7 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -      ###
         [HttpPost("{P}")]
         [Route("PostSociete/{P}")]
-        public string PostSociete(ML_DonetSociete _ObjSociete)
+        public IActionResult PostSociete([FromBody] ML_DonetSociete _ObjSociete)
         {
 
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=
@@ -270,7 +268,7 @@ namespace EuroDotNet.Controllers
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--==-=-=
             string Msge = _DonetRepository.Repo_PostSociete(_ObjSociete);
             // > On renvoie un résultat <
-            return this.Ok(Msge).ToString();
+            return this.Ok(Msge);
 
         }
 
@@ -281,7 +279,7 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  ###
         [HttpGet()]
         [Route("GetListSCollabs")]
-        public string GetListSCollabs()
+        public IActionResult GetListSCollabs()
         {
 
             // > On déclare un LIST<T> de "DonetCollab" <
@@ -301,12 +299,12 @@ namespace EuroDotNet.Controllers
 
             if (Msge != null)
             { // > On revnoie un status erreur 204 => Pas de données à renvoyer <
-                return this.StatusCode(StatusCodes.Status204NoContent).ToString();
+                return this.StatusCode(StatusCodes.Status204NoContent);
             }
 
             // > Serialiez la liste d'objets <
             var JsonResult = JsonConvert.SerializeObject(collabs);
-            return (JsonResult);
+            return this.Ok(JsonResult);
 
         }
 
@@ -318,7 +316,7 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  ### 
         [HttpPost("{P}")]
         [Route("PostCollab/{P}")]
-        public string PostCollab(ML_DonetCollab _ObjCollab)
+        public IActionResult PostCollab([FromBody] ML_DonetCollab _ObjCollab)
         {
 
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=
@@ -328,7 +326,7 @@ namespace EuroDotNet.Controllers
             string Msge = _DonetRepository.Repo_PostCollab(_ObjCollab);
 
             // > On renvoie un résultat <
-            return this.Ok(Msge).ToString();
+            return this.Ok(Msge);
 
         }
 
@@ -337,7 +335,7 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  ### 
         [HttpGet("{P}")]
         [Route("GetFacture/{P}")]
-        public IActionResult GetFacture(ML_Genere_Facture_IN _ObjGenereFacture)
+        public IActionResult GetFacture([FromBody] ML_Genere_Facture_IN _ObjGenereFacture)
         {
 
             // > Objet  pour le renvoie sous Json <
@@ -350,7 +348,7 @@ namespace EuroDotNet.Controllers
             JsonFacture = _DonetRepository.Repo_GetFacture(_ObjGenereFacture);
 
             // > Utilise le module Json .Net Core <
-            return Json(JsonFacture);
+            return this.Ok(Json(JsonFacture));
 
         }
      }
