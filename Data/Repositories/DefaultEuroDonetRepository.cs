@@ -1,5 +1,5 @@
 ﻿using API.Core.Framawork;
-
+using EuroDonetApi.Applications.DTOs;
 using EuroDonetApi.Interface;
 using EuroDotnet.Model;
 using EuroDotNet_BusinessRules;
@@ -182,7 +182,7 @@ namespace EuroDonetApi.Data.Repositories
         // ###          ****   Adresses ****            ####
         // ###       Insérer/Màj  une adresse           ####
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-        public string Repo_PostAdresse(ML_DonetAdresse _ObjAdress)
+        public AdresseDto Repo_PostAdresse(AdresseDto _ObjAdress)
         {
             // > Par défaut, optimiste <
             ResultAPIAction.Append(ApiOK);
@@ -237,9 +237,11 @@ namespace EuroDonetApi.Data.Repositories
                 {
 
                     // > On intialise le string <
-                    ResultAPIAction.Remove(0, 6);
+                    // ResultAPIAction.Remove(0, 6);
 
-                    ResultAPIAction.Append(E.Message);
+                    // ResultAPIAction.Append(E.Message);
+
+                    _ObjAdress.ErrorMessage = E.Message;
 
                 }
 
@@ -282,9 +284,11 @@ namespace EuroDonetApi.Data.Repositories
             {
 
                 // > On intialise le string <
-                ResultAPIAction.Remove(0, 6);
+                // ResultAPIAction.Remove(0, 6);
 
-                ResultAPIAction.Append(E.Message);
+                // ResultAPIAction.Append(E.Message);
+
+                _ObjAdress.ErrorMessage = E.Message;
             }
 
             finally
@@ -294,7 +298,8 @@ namespace EuroDonetApi.Data.Repositories
             }
 
             // > On retourne le resultat de l'action ( Insertion / MAJ )
-            return ResultAPIAction.ToString();
+            // return ResultAPIAction.ToString();
+            return _ObjAdress;
 
         }
 
@@ -401,7 +406,7 @@ namespace EuroDonetApi.Data.Repositories
         // ###          ****   Societe  ****            ####
         // ###         Insérer/Màj  une SOCIETE         ####
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-        public string Repo_PostSociete(ML_DonetSociete _ObjSociete)
+        public SocieteDto Repo_PostSociete(SocieteDto _ObjSociete)
         {
 
             // > Mémorisation ID Société <
@@ -488,9 +493,11 @@ namespace EuroDonetApi.Data.Repositories
                     {
 
                         // > On intialise le string <
-                        ResultAPIAction.Remove(0, 6);
+                        // ResultAPIAction.Remove(0, 6);
 
-                        ResultAPIAction.Append(E.Message);
+                        // ResultAPIAction.Append(E.Message);
+
+                        _ObjSociete.ErrorMessage = (E.Message);
 
                     }
 
@@ -547,9 +554,11 @@ namespace EuroDonetApi.Data.Repositories
                 {
 
                     // > On intialise le string <
-                    ResultAPIAction.Remove(0, 6);
+                    // ResultAPIAction.Remove(0, 6);
 
-                    ResultAPIAction.Append(E.Message);
+                    // ResultAPIAction.Append(E.Message);
+
+                    _ObjSociete.ErrorMessage = (E.Message);
 
                 }
 
@@ -561,7 +570,7 @@ namespace EuroDonetApi.Data.Repositories
 
             }
             // > On renvoie un résultat <
-            return (ResultAPIAction).ToString();
+            return _ObjSociete;
         }
 
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -667,7 +676,7 @@ namespace EuroDonetApi.Data.Repositories
         // ###          ****   Collaborateur  ****       ####
         // ###         Insérer/Màj  un COLLABORATEUR     ####
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-        public string Repo_PostCollab(ML_DonetCollab _ObjCollab)
+        public CollabDto Repo_PostCollab(CollabDto _ObjCollab)
         {
 
 
@@ -754,9 +763,11 @@ namespace EuroDonetApi.Data.Repositories
                         {
 
                             // > On intialise le string <
-                            ResultAPIAction.Remove(0, 5);
+                            // ResultAPIAction.Remove(0, 5);
 
-                            ResultAPIAction.Append("ERR_AJOUTCOLLAB_1A__" + E.Message);
+                            // ResultAPIAction.Append("ERR_AJOUTCOLLAB_1A__" + E.Message);
+
+                            _ObjCollab.ErrorMessage="ERR_AJOUTCOLLAB_1A__" + E.Message;
 
                         }
 
@@ -837,9 +848,11 @@ namespace EuroDonetApi.Data.Repositories
                     {
 
                         // > On intialise le string <
-                        ResultAPIAction.Remove(0, 5);
+                        // ResultAPIAction.Remove(0, 5);
 
-                        ResultAPIAction.Append("ERR_AJOUTCOLLAB_2A__" + E.Message);
+                        //ResultAPIAction.Append("ERR_AJOUTCOLLAB_2A__" + E.Message);
+
+                        _ObjCollab.ErrorMessage = "ERR_AJOUTCOLLAB_2A__" + E.Message;
 
                     }
 
@@ -855,10 +868,10 @@ namespace EuroDonetApi.Data.Repositories
 
             // > On renvoie l'ID calculé <
             //   ( On l'ajoute à OK<--> )
-            ResultAPIAction.Append(ID_Collab_ME);
+            //ResultAPIAction.Append(ID_Collab_ME);
 
             // > On renvoie un résultat <
-            return ResultAPIAction.ToString();
+            return _ObjCollab;
         }
 
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

@@ -1,5 +1,6 @@
 ﻿
 using API.Core.Framawork;
+using EuroDonetApi.Applications.DTOs;
 using EuroDotnet.Model;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace EuroDonetApi.Interface
 
         // *****    Adresse  **** 
         // > INSERER ou Màj une adresse  <
-        string Repo_PostAdresse(ML_DonetAdresse Adresse);
+        AdresseDto Repo_PostAdresse(AdresseDto Adresse);
 
 
         // *****    Adresse  **** 
@@ -40,7 +41,7 @@ namespace EuroDonetApi.Interface
 
         // ***    Société   ****
         // > INSERER ou Màj une société <
-        string Repo_PostSociete(ML_DonetSociete _ObjSociete);
+        SocieteDto Repo_PostSociete(SocieteDto _ObjSociete);
 
         // ***    Société   ****
         // > RENVOYER  une société <
@@ -54,7 +55,7 @@ namespace EuroDonetApi.Interface
 
         // ***    Collaborateurs   ****
         // > INSERER ou Màj un collaborateur  <
-        string Repo_PostCollab(ML_DonetCollab _ObjCollab);
+        CollabDto Repo_PostCollab(CollabDto _ObjCollab);
 
 
         // ***    Facture   ****

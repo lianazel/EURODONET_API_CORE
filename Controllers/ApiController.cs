@@ -15,6 +15,7 @@ using EuroDotNet_BusinessRules;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using EuroDonetApi.Interface;
+using EuroDonetApi.Applications.DTOs;
 
 // ### =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=
 // ###              Employee management by company                               ####  
@@ -169,16 +170,18 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -### 
         [HttpPost("{P}")]
         [Route("PostAdress/{P}")]
-        public IActionResult PostAdress([FromBody] ML_DonetAdresse _ObjAdress)
+        public IActionResult PostAdress([FromBody] AdresseDto _ObjAdress)
         {
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=
             // ####  Insérer/Mettre à jour une adresse                                                             ###
-            // #### ( Rappel : la méthode "_DonetRepository.Repo_GetAdresse(_IDAdress) renvoie  un string          ###
+            // #### ( Rappel : la méthode "_DonetRepository.Repo_GetAdresse(_ObjAdress) renvoie  un "AdresseDto"   ###
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--==-=-=
-            string Msge = _DonetRepository.Repo_PostAdresse(_ObjAdress);
+            _ObjAdress = _DonetRepository.Repo_PostAdresse(_ObjAdress);
 
             // > On renvoie un résultat <
-            return this.Ok(Json(Msge));
+            //    ( L'objet de type "AdresseDto" contient l'ID généré ( si création ) 
+            //    ( L'objet de type "AdresseDto" contient un message d'erreur si une erreur est détectée )
+            return this.Ok(_ObjAdress);
         }
 
 
@@ -259,16 +262,19 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -      ###
         [HttpPost("{P}")]
         [Route("PostSociete/{P}")]
-        public IActionResult PostSociete([FromBody] ML_DonetSociete _ObjSociete)
+        public IActionResult PostSociete([FromBody] SocieteDto _ObjSociete)
         {
 
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=
             // ####  Insérer/Mettre à jour une société                                                            ###
-            // #### ( Rappel : la méthode "_DonetRepository.Repo_PostSociete(_ObjSociete) renvoie un string       ###
+            // #### ( Rappel : la méthode "_DonetRepository.Repo_PostSociete(_ObjSociete) renvoie un SocieteDto   ###
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--==-=-=
-            string Msge = _DonetRepository.Repo_PostSociete(_ObjSociete);
+            _ObjSociete = _DonetRepository.Repo_PostSociete(_ObjSociete);
+
             // > On renvoie un résultat <
-            return this.Ok(Msge);
+            //    ( L'objet de type "SocieteDto" contient l'ID généré ( si création ) 
+            //    ( L'objet de type "SocieteDto" contient un message d'erreur si une erreur est détectée )
+            return this.Ok(_ObjSociete);
 
         }
 
@@ -316,17 +322,19 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  ### 
         [HttpPost("{P}")]
         [Route("PostCollab/{P}")]
-        public IActionResult PostCollab([FromBody] ML_DonetCollab _ObjCollab)
+        public IActionResult PostCollab([FromBody] CollabDto _ObjCollab)
         {
 
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=
             // ####  Insérer/Mettre à jour d'un collaborateur                                                     ###
-            // #### ( Rappel : la méthode "_DonetRepository.Repo_PostSociete(_ObjSociete) renvoie string          ###
+            // #### ( Rappel : la méthode "_DonetRepository.Repo_PostSociete(_ObjSociete) renvoie CollabDto       ###
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--==-=-=
-            string Msge = _DonetRepository.Repo_PostCollab(_ObjCollab);
+            _ObjCollab = _DonetRepository.Repo_PostCollab(_ObjCollab);
 
             // > On renvoie un résultat <
-            return this.Ok(Msge);
+            //    ( L'objet de type "SocieteDto" contient l'ID généré ( si création ) 
+            //    ( L'objet de type "SocieteDto" contient un message d'erreur si une erreur est détectée )
+            return this.Ok(_ObjCollab);
 
         }
 

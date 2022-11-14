@@ -1,3 +1,4 @@
+using EuroDonetApi.Applications.DTOs;
 using EuroDonetApi.Interface;
 using EuroDotnet.Model;
 using EuroDotNet.Controllers;
@@ -21,7 +22,7 @@ namespace API.TESTS
         // ### Récupérer la liste des adresses 
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=
         [Fact]
-        public void Get_ListAdress()
+        public void ShouldGet_ListAdress()
         {
 
             var RepositoryMoq = new Mock<IEuroDonetRepository>();
@@ -51,7 +52,7 @@ namespace API.TESTS
         // ### Récupérer la Drop Down List des adresses  
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=
         [Fact]
-        public void Get_DropDownList()
+        public void ShouldGet_DropDownList()
         {
             var RepositoryMoq = new Mock<IEuroDonetRepository>();
 
@@ -80,11 +81,11 @@ namespace API.TESTS
         // ### Sauver/Mettre à jour une adresse 
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=
         [Fact]
-        public void Post_Adress()
+        public void ShouldPost_Adress()
         {
             var RepositoryMoq = new Mock<IEuroDonetRepository>();
 
-            var ad = new ML_DonetAdresse()
+            var ad = new AdresseDto()
             {
                 Adresse_1 = "Allées des peupliers",
                 Adresse_2 = "",
@@ -94,8 +95,9 @@ namespace API.TESTS
 
             // #### Arrange ( Préparation ) ######
             RepositoryMoq.Setup(item => item.Repo_PostAdresse(ad));
-            
 
+
+            // > On passe au contrôleur notre configuration Mocq <
             var controler = new ApiController(RepositoryMoq.Object);
 
             // #### Act ( Traitement ) ######
