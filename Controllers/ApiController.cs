@@ -208,7 +208,9 @@ namespace EuroDotNet.Controllers
             // ####    ( Rappel : la méthode " _DonetRepository.Repo_GetListSocietes() renvoie un dictionnaire )    ###
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=
             var DSocr = _DonetRepository.Repo_GetListSocietes();
+
             string Msge = (string)DSocr[1];
+                                  
             societes = (List<ML_DonetSociete>)DSocr[2];
 
             if (Msge != null)
@@ -343,17 +345,17 @@ namespace EuroDotNet.Controllers
         // ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  ### 
         [HttpGet("{P}")]
         [Route("GetFacture/{P}")]
-        public IActionResult GetFacture([FromBody] ML_Genere_Facture_IN _ObjGenereFacture)
+        public IActionResult GetFacture([FromBody] FactureDto _DtoIn)
         {
 
             // > Objet  pour le renvoie sous Json <
-            var JsonFacture = new ML_Genere_Facture_OUT();
+            var JsonFacture = new FactureGenereDto();
 
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=
             // ####  Récupération d'une société                                                                    ###
             // #### ( Rappel : la méthode "_DonetRepository.Repo_GetAdresse(_IDAdress) renvoie un enregistrement   ###
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--==-=-=
-            JsonFacture = _DonetRepository.Repo_GetFacture(_ObjGenereFacture);
+            JsonFacture = _DonetRepository.Repo_GetFacture(_DtoIn);
 
             // > Utilise le module Json .Net Core <
             return this.Ok(Json(JsonFacture));

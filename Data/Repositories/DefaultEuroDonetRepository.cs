@@ -879,10 +879,10 @@ namespace EuroDonetApi.Data.Repositories
         // ###           Generer une facture                    ####
         // ###   Remarque : pas d'utiliser un DICTIONNAIRE ici  ####
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-        public ML_Genere_Facture_OUT Repo_GetFacture(ML_Genere_Facture_IN _ObjGenereFacture)
+        public FactureGenereDto Repo_GetFacture(FactureDto _DtoIn)
         {
             // > Objet  pour le renvoie sous Json <
-            var JsonFacture = new ML_Genere_Facture_OUT();
+            var JsonFacture = new FactureGenereDto();
 
             // > Réception de l'adresse LU <
             var ObjAdresseLu = new ML_DonetAdresse();
@@ -905,13 +905,13 @@ namespace EuroDonetApi.Data.Repositories
 
 
             // > Démarre generation facture si paramètres transmis NON NULL <
-            if (_ObjGenereFacture != null)
+            if (_DtoIn != null)
             {
 
                 // - - - - - - - - - - - -
                 //    ****   Extraction SOCIETE COLLABORATEUR    ****
                 // - - - - - - - - - - - -    
-                var ObjColSocLU = _context.ColSoc.Where(e => e.Id_CollaborateurSociete == _ObjGenereFacture.ID_Societe_Collaborateur).FirstOrDefault();
+                var ObjColSocLU = _context.ColSoc.Where(e => e.Id_CollaborateurSociete == _DtoIn.ID_Societe_Collaborateur).FirstOrDefault();
                 if (ObjColSocLU != null)
                 {
                     // > On a récupéré l'enregistrement contenant le couple "ID_COLLABORATEUR-ID_SOCIETE"  "ObjColSocLU" <
@@ -932,7 +932,7 @@ namespace EuroDonetApi.Data.Repositories
                 // - - - - - - - - - - - -
                 //    ****   Extraction ADRESSE SOCIETE   ****
                 // - - - - - - - - - - - -
-                var ObjAdrSocLU = _context.SocAdr.Where(e => e.Id_SocieteAdresse == _ObjGenereFacture.ID_Adresse_Societe).FirstOrDefault();
+                var ObjAdrSocLU = _context.SocAdr.Where(e => e.Id_SocieteAdresse == _DtoIn.ID_Adresse_Societe).FirstOrDefault();
                 if (ObjAdrSocLU != null)
                 {
                     // > On a récupéré l'enregistrement contenant le couple "ID_SOCIETE-ID_ADRESSE" contenu dans "ObjAdrSocLU"  <
@@ -978,7 +978,7 @@ namespace EuroDonetApi.Data.Repositories
                 // > ID Adresse société  facture <
                 NewFacture.FK_ID_Adresse_Societe = ObjAdresseSocieteLU.Id_Adresse;
                 // > Description Facture  <
-                NewFacture.DescriptionFacture = _ObjGenereFacture.DescriptionFacture;
+                NewFacture.DescriptionFacture = _DtoIn.DescriptionFacture;
 
                 // > (1B) ==>Création d'un ID et chargement des data's  <
                 //     ==> Création d'un nouveau Guid Unique pour le futur ID calculé par le code <

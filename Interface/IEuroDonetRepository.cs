@@ -60,7 +60,7 @@ namespace EuroDonetApi.Interface
 
         // ***    Facture   ****
         // > Générer une facture   <
-        ML_Genere_Facture_OUT Repo_GetFacture(ML_Genere_Facture_IN _ObjGenereFacture);
+        FactureGenereDto Repo_GetFacture(FactureDto _DtoIn);
 
         #endregion
 
