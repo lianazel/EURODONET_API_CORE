@@ -22,6 +22,9 @@ namespace API.TESTS
         [Fact]
         public void ShouldPost_Societe()
         {
+            // *** Rappel : en mode TEST, lors d'un ADD ou UPDATE, la BDD n'est PAS impactée *** 
+            //     ( ==> Pas la peine de rechercher k'enrgistrement dans la base ! )
+
             var RepositoryMoq = new Mock<IEuroDonetRepository>();
 
             var St = new SocieteDto()

@@ -46,7 +46,7 @@ namespace EuroDotNet
 
 
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-            // ####     *****   Injectoion de dépendeances  *******                  ####
+            // ####     *****   Injection de dépendeances  *******                   ####
             // ####    Les injections sont déportées dans une méthode d'extension    #### 
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=
             services.AddInjections();

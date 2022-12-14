@@ -18,9 +18,7 @@ namespace EuroDotNet
     public class Program
     {
         public static void  Main(string[] args)
-        {
-            //CreateHostBuilder(args).Build().Run();
-
+        {            
             // > Création d'un objet "Host"  <
             var host = CreateHostBuilder(args).Build();
 
@@ -28,8 +26,6 @@ namespace EuroDotNet
             CreateDbIfNotExists(host);
 
             // > Démarrage de l"application Web <
-            // ( The Run method starts the web app
-            //   ...and blocks the calling thread until the host is shut down )
             host.Run();
         }
 
@@ -41,24 +37,24 @@ namespace EuroDotNet
                 });
 
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-        // > Création de la BDD si elle n'est pas présente <
+        //          >  Lance la création des tables  <
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         private static void CreateDbIfNotExists(IHost host)
         {
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                // > Tentative de création de la BDD <
+                // > Try to create BDD  <
                 try
                 {
                     var context = services.GetRequiredService<DataContext>();
                     context.Database.EnsureCreated();
                 }
-                // > Quelquechose s'est mal passé...<
+                // > There is a pbm...:( <
                 catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "ERR-DB-01A -> Eerreur détectée à la création de la BDD.");
+                    logger.LogError(ex, "ERR-DB-01A -> Désolé, une erreur est détectée.");
                 }
             }
         }
